@@ -14,15 +14,51 @@
 <div class="container">
     <div class="row">
         <div class="col-9">
-            <!-- 标题及作者 -->
-            <h1 class="col-12 mt-4 mb-4">{{ article.title }}</h1>
+            <br> 
+            <div>
+                <!-- 标题 -->
+                <h1 class="col-12 mt-4 mb-4" style="display: inline;">
+                    {{ article.title }}
+                </h1>
+
+                <!-- 栏目 -->
+                {% if article.column %}
+                    <button type="button" style="float: right;"
+                        class="btn btn-sm mb-2
+                            {% if article.column.title == '测试' %}
+                                btn-success
+                            {% elif article.column.title == '小说' %}
+                                btn-danger
+                            {% elif article.column.title == 'HTML' %}
+                                btn-warning
+                            {% endif %}">
+                        {{ article.column }}
+                    </button>
+                {% endif %}
+            </div>
+            <!-- 标签 -->
+            {% if article.tags.all %}
+                <hr>
+                <span>
+                    {% for tag in article.tags.all %}
+                        <a href="#" 
+                        class="badge badge-secondary" 
+                        >
+                            {{ tag }}
+                        </a>
+                    {% endfor %}
+                </span>
+                <br>
+            {% endif %}
+            <br>
+
             <div class="col-12 alert alert-success">
                 <div>
                 作者：{{ article.author }}
                 
                 {% if user == article.author %}
-                    <a href="#" onclick="confirm_delete()">删除文章</a>
-                    <a href='{% url "article:article_update" article.id %}'>编辑文章</a>
+                    <a href="#" onclick="confirm_delete()" style="float: right;color: red;">删除文章</a>
+                    <a href='{% url "article:article_update" article.id %}' >编辑文章</a>
                 {% endif %}
                 </div>
                 <div>
