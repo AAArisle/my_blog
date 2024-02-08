@@ -129,7 +129,7 @@ def article_create(request):
     # 判断用户是否提交数据
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
-        article_post_form = ArticlePostForm(data=request.POST)
+        article_post_form = ArticlePostForm(request.POST, request.FILES)
         # 判断提交的数据是否满足模型的要求
         if article_post_form.is_valid():
             # 保存数据，但暂时不提交到数据库中
@@ -223,6 +223,10 @@ def article_update(request, id):
             tag = request.POST.get('tags').split(',')
             tag = list(filter(None, tag))
             article.tags.set(tag, clear=True)
+
+            # 文章的标题图
+            if request.FILES.get('avatar'):
+                article.avatar = request.FILES.get('avatar')
 
             article.save()
 

@@ -13,7 +13,7 @@
 <!-- 定义放置文章标题的div容器 -->
 <div class="container">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" style="opacity: 0.8;">
             <li class="breadcrumb-item">
                 {% if request.GET.order == "normal" %}
                     <a style="color: gray;">
@@ -40,7 +40,7 @@
     </nav>
 
     <!-- 搜索栏 -->
-    <div class="row">
+    <div class="row" style="opacity: 0.8;">
         <div class="col-auto mr-auto">
             <form class="form-inline" >
                 <label class="sr-only">content</label>
@@ -65,12 +65,12 @@
         {% endif %}
     {% endif %}
 
-    <div class="row mt-2">
+    <div class="mt-2">
         {% for article in articles %}
         <!-- 文章内容 -->
-        <div class="col-4 mb-4">
+        <div class="mb-4">
         <!-- 卡片容器 -->
-            <div class="card h-100">
+            <div class="card">
                 <!-- 标题 -->
                 <h4 class="card-header">
                     {{ article.title }}
@@ -81,7 +81,7 @@
                             type="button"
                             style="float: right"
                             href="{% url 'article:article_list' %}?column={{ article.column.id }}"
-                            class="btn btn-sm mb-2
+                            class="btn btn-sm
                                 {% if article.column.title == '测试' %}
                                     btn-success
                                 {% elif article.column.title == '小说' %}
@@ -106,32 +106,53 @@
                         {% endfor %}
                     </span>
                 </h4>
-                <!-- 摘要 -->
-                <div class="card-body">
-                    {% if article.body|length > 200 %}
-                        <p class="card-text">{{ article.body|slice:'200' }}...</p>
+
+                <!-- 摘要和标题图 -->
+                <div class="card-body row" style="margin-left: unset; margin-right: unset; flex-wrap: nowrap;">
+                    {% if article.avatar %}
+                        <div>
+                            <img src="{{ article.avatar.url }}" 
+                            alt="avatar" 
+                            style="max-height:200px; border-radius: 20px">
+                        </div>
+
+                        <div style="margin-left: 20px;">
+                            <!-- 如果有图，摘要少一些 -->
+                            {% if article.body|length > 420 %}
+                                <p class="card-text">{{ article.body|slice:'420' }}...</p>
+                            {% else %}
+                                <p class="card-text">{{ article.body }}</p>
+                            {% endif %}
+                        </div>
+
                     {% else %}
-                        <p class="card-text">{{ article.body }}</p>
+                        <div>
+                            {% if article.body|length > 550 %}
+                                <p class="card-text">{{ article.body|slice:'550' }}...</p>
+                            {% else %}
+                                <p class="card-text">{{ article.body }}</p>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
+
                 <!-- 注脚 -->
                 <div class="card-footer">
-                    <span>
-                        <small style="color: blue;" class="col align-self-center">
-                            {{ article.created|date:'Y-m-d' }} 发布
-                        </small>
-                        <small style="color: darkred;" class="col align-self-center">
-                            {{ article.updated|date:'Y-m-d' }} 更新
-                        </small>
-                        <hr>
-                        <a href="{% url 'article:article_detail' article.id %}" class="btn btn-primary">阅读本文</a>
-                        <!-- 显示浏览量 -->
-                        <small class="col align-self-end" style="color: gray;">
-                            浏览量: {{ article.total_views }}
-                        </small>
-                        <small class="col align-self-end" style="color: gray;">
-                            点赞数: {{ article.likes }}
-                        </small>
+                    <a href="{% url 'article:article_detail' article.id %}" class="btn btn-primary">阅读本文</a>
+                    <!-- 显示浏览量 -->
+                    <span >
+                            <small style="color: gray;" class="col align-self-center">
+                                浏览量: {{ article.total_views }}
+                            </small>
+                            <small style="color: gray;" class="col align-self-center">
+                                点赞数: {{ article.likes }}
+                            </small>
+                            <small style="color: blue;" class="col align-self-center">
+                                {{ article.created|date:'Y-m-d' }} 发布
+                            </small>
+                            <small style="color: darkred;" class="col align-self-center">
+                                {{ article.updated|date:'Y-m-d' }} 更新
+                            </small>
                     </span>
                 </div>
             </div>
@@ -179,7 +200,11 @@
 
 </div>
 
-
+<!-- 背景 -->
+<body style="background: url('{% static 'img/bj2.png' %}') no-repeat;
+            background-size:cover;
+            ">   
+    <!-- 代表的是静态文件夹(static)下的img文件夹中的bj文件 -->
 
 
 {% endblock content %}

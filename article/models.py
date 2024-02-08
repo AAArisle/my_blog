@@ -7,6 +7,8 @@ from django.utils import timezone
 from django.urls import reverse
 # Django-taggit，处理多对多关系的管理器
 from taggit.managers import TaggableManager
+# 用pillow库处理图片
+from PIL import Image
 
 class ArticleColumn(models.Model):
     """
@@ -70,4 +72,22 @@ class ArticlePost(models.Model):
 
     # 文章标签
     tags = TaggableManager(blank=True)
+
+    # 文章标题图
+    avatar = models.ImageField(upload_to='article/%Y%m%d/', blank=True)
+    # 保存时处理图片
+    def save(self, *args, **kwargs):
+        # 调用原有的 save() 的功能
+        article = super(ArticlePost, self).save(*args, **kwargs)
+
+        # 固定宽度缩放图片大小
+        if self.avatar and not kwargs.get('update_fields'):
+            image = Image.open(self.avatar)
+            (x, y) = image.size
+            new_x = 350
+            new_y = int(new_x * (y / x))
+            resized_image = image.resize((new_x, new_y), Image.ANTIALIAS)
+            resized_image.save(self.avatar.path)
+
+        return article
     
