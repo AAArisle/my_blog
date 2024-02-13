@@ -20,6 +20,9 @@ from django.db.models import Q
 # 评论
 from comment.models import Comment
 
+# 引入评论表单
+from comment.forms import CommentForm
+
 # 文章列表
 def article_list(request):
     # 从 url 中提取查询参数
@@ -104,10 +107,14 @@ def article_detail(request, id):
     comments = Comment.objects.filter(article=id)
     # filter()可以取出多个满足条件的对象，而get()只能取出1个
 
+    # 引入评论表单
+    comment_form = CommentForm()
+
     # 需要传递给模板的对象
     context = { 
         'article': article, 
         'toc': md.toc, 
+        'comment_form': comment_form,
         'comments': comments 
     }
     # 载入模板，并返回context对象

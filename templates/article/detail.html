@@ -10,6 +10,10 @@
 <!-- 写入 base.html 中定义的 content -->
 {% block content %}
 
+<!-- 引用prism的静态文件，对代码进行渲染 -->
+<script src="{% static 'ckeditor/ckeditor/plugins/prism/lib/prism/prism_patched.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'prism/prism.css' %}">
+
 <!-- 文章详情 -->
 <div class="container">
     <div class="row">
@@ -24,7 +28,7 @@
                 <!-- 栏目 -->
                 {% if article.column %}
                     <button type="button" style="float: right;"
-                        class="btn btn-sm mb-2
+                        class="btn btn-sm
                             {% if article.column.title == '测试' %}
                                 btn-success
                             {% elif article.column.title == '小说' %}
@@ -41,11 +45,9 @@
                 <hr>
                 <span>
                     {% for tag in article.tags.all %}
-                        <a href="#" 
-                        class="badge badge-secondary" 
-                        >
+                        <button class="badge badge-secondary btn" >
                             {{ tag }}
-                        </a>
+                        </button>
                     {% endfor %}
                 </span>
                 <br>
@@ -89,12 +91,12 @@
                                     我也要发言：
                                 </strong>
                             </label>
-                            <textarea 
-                                type="text" 
-                                class="form-control" 
-                                id="body" 
-                                name="body" 
-                                rows="2"></textarea>
+
+                            <!-- comment_form.media是编辑器自身的渲染代码，comment_form.body则是评论正文字段 -->
+                            <div>
+                                {{ comment_form.media }}
+                                {{ comment_form.body }}
+                            </div>
                         </div>
                         <!-- 提交按钮 -->
                         <button type="submit" class="btn btn-primary ">发送</button>                    
@@ -122,8 +124,7 @@
                             {{ comment.created|date:"Y-m-d H:i:s" }}
                         </span> ]：
                     </p>
-                    <!-- <pre>定义预格式化的文本，保留空格和换行符。该标签会改变文字的字体、大小等，因此用style属性重新定义相关内容。在<pre>标签中的文本千万不能缩进。 -->
-                    <pre style="font-family: inherit; font-size: 1em;">{{ comment.body }}</pre>
+                    <div>{{ comment.body|safe }}</div>
                 {% endfor %}
             </div>
 
@@ -158,5 +159,12 @@
     }
 </script>
 
+
+
+{% block script %}
+    <script>
+        $(".django-ckeditor-widget").removeAttr('style');
+    </script>
+{% endblock script %}
 
 {% endblock content %}

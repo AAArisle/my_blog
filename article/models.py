@@ -9,6 +9,8 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 # 用pillow库处理图片
 from PIL import Image
+# django-ckeditor
+from ckeditor.fields import RichTextField
 
 class ArticleColumn(models.Model):
     """
@@ -32,7 +34,8 @@ class ArticlePost(models.Model):
     title = models.CharField(max_length=100)
 
     # 文章正文。保存大量文本使用 TextField
-    body = models.TextField()
+    # body = models.TextField()
+    body = RichTextField()
 
     # 文章创建时间。参数 default=timezone.now 指定其在创建数据时将默认写入当前的时间
     created = models.DateTimeField(default=timezone.now)
