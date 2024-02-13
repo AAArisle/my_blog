@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'comment',
     'taggit',
     'ckeditor',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +147,9 @@ DEFAULT_FROM_EMAIL = '博客作业 <aaarisle@foxmail.com>'
 # 媒体文件地址
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# 多级评论
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # 定义富文本编辑器需要使用的功能模块
 CKEDITOR_CONFIGS = {
