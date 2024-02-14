@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,12 @@ urlpatterns = [
 
     # 评论
     path('comment/', include('comment.urls', namespace='comment')),
+
+    # 通知
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
+    # notice
+    path('notice/', include('notice.urls', namespace='notice')),
 ]
 
 # 为以后上传的图片配置URL路径
