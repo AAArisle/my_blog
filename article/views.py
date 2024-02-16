@@ -58,6 +58,10 @@ def article_list(request):
         # 取出所有博客文章
         article_list = article_list.order_by('-total_views')
 
+    # 按照点赞数排序显示
+    if order == 'likes':
+        article_list = article_list.order_by('-likes')
+
     # 按照默认（时间）排序显示
     else:
         order = 'normal'
@@ -266,4 +270,4 @@ def increase_Likes(request,id):
     article = ArticlePost.objects.get(id=id)
     article.likes += 1
     article.save()
-    return redirect("article:article_detail", id=id)
+    return HttpResponse('success')

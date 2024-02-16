@@ -1,6 +1,7 @@
 <!-- extends表明此页面继承自 base.html 文件 -->
 {% extends "base.html" %}
 {% load static %}
+{% load my_filters_and_tags %}
 
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
@@ -33,6 +34,17 @@
                 {% else %}
                     <a href="{% url 'article:article_list' %}?order=total_views&search={{ search }}&column={{ column }}&tag={{ tag }}">
                         最热
+                    </a>
+                {% endif %}
+            </li>
+            <li class="breadcrumb-item">
+                {% if request.GET.order == "likes" %}
+                    <a style="color: gray;">
+                        最赞
+                    </a>
+                {% else %}
+                    <a href="{% url 'article:article_list' %}?order=likes&search={{ search }}&column={{ column }}&tag={{ tag }}">
+                        最赞
                     </a>
                 {% endif %}
             </li>
@@ -160,7 +172,7 @@
                             </small>
                             <small style="color: gray;" class="col align-self-center">
                                 <i class="fas fa-clock" style="color: mediumpurple;"></i>
-                                {{ article.updated|date:'Y-m-d' }} 更新
+                                {{ article.created|timesince_zh }} 更新
                             </small>
                     </span>
                 </div>
