@@ -131,6 +131,8 @@ from django.contrib.auth.models import User
 # 引入栏目Model
 from .models import ArticleColumn
 
+# 提醒用户登录
+@login_required(login_url='/userprofile/login/')
 # 写文章的视图
 def article_create(request):
     # 判断用户是否提交数据
