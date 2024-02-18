@@ -13,6 +13,33 @@
 
 <!-- 定义放置文章标题的div容器 -->
 <div class="container">
+    <!-- 栏目 -->
+        <a role="button"
+            type="button"
+            href="{% url 'article:article_list' %}?column=1"
+            style="margin: 16px;"
+            class="btn 
+                {% if column == '1' %}
+                    btn-success
+                {% else %}
+                    btn-outline-success
+                {% endif %}">
+            测试
+        </a>
+            <a role="button"
+            type="button"
+            href="{% url 'article:article_list' %}?column=2"
+            style="margin: 16px;"
+            class="btn 
+                {% if column == '2' %}
+                    btn-danger
+                {% else %}
+                    btn-outline-danger
+                {% endif %}">
+            小说
+        </a>
+
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="opacity: 0.8;">
             <li class="breadcrumb-item">

@@ -15,17 +15,32 @@
       <ul class="navbar-nav">
         <!-- 条目 -->
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'article:article_list' %}?order=normal&search=&column=None&tag=None">文章</a>
+            <a class="nav-link 
+                {% if '/article-list' in request.path %}
+                    active"
+                    style="border-bottom: 2px solid white;
+                {% endif %}"
+                href="{% url 'article:article_list' %}?order=normal&search=&column=None&tag=None">文章</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'article:article_create' %}">写文章</a>
+            <a class="nav-link
+                {% if '/article-create' in request.path %}
+                    active"
+                    style="border-bottom: 2px solid white;
+                {% endif %}"
+                href="{% url 'article:article_create' %}">写文章</a>
         </li>
 
         <!-- Django的 if 模板语句 -->
         {% if user.is_authenticated %}
         <!-- 如果用户已经登录，则显示用户名下拉框 -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle
+                    {% if '/userprofile' in request.path or '/notice' in request.path %}
+                        active"
+                        style="border-bottom: 2px solid white;
+                    {% endif %}"
+                    href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <!-- 小红点 -->
                     {% if unread_count %}
                         <svg viewBox="0 0 8 8"
@@ -56,7 +71,11 @@
             </li>
         <!-- 如果用户未登录，则显示 “登录” -->
         {% else %}
-            <li class="nav-item">
+            <li class="nav-item
+                {% if '/userprofile' in request.path %}
+                    active"
+                    style="border-bottom: 2px solid white;
+                {% endif %}">
                 <a class="nav-link" href="{% url 'userprofile:login' %}">登录</a>
             </li>                    
         <!-- if 语句在这里结束 -->
