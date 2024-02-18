@@ -15,6 +15,9 @@
       <ul class="navbar-nav">
         <!-- 条目 -->
         <li class="nav-item">
+            <a class="nav-link" href="{% url 'article:article_list' %}?order=normal&search=&column=None&tag=None">文章</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'article:article_create' %}">写文章</a>
         </li>
 

@@ -107,6 +107,23 @@ def article_detail(request, id):
         ])
     article.body = md.convert(article.body)
 
+    # 过滤出所有的id比当前文章小的文章
+    pre_article = ArticlePost.objects.filter(id__lt=article.id).order_by('-id')
+    # 过滤出id大的文章
+    next_article = ArticlePost.objects.filter(id__gt=article.id).order_by('id')
+    
+    # 取出相邻前一篇文章
+    if pre_article.count() > 0:
+        pre_article = pre_article[0]
+    else:
+        pre_article = None
+        
+    # 取出相邻后一篇文章
+    if next_article.count() > 0:
+        next_article = next_article[0]
+    else:
+        next_article = None
+
     # 取出文章评论
     comments = Comment.objects.filter(article=id)
     # filter()可以取出多个满足条件的对象，而get()只能取出1个
@@ -119,7 +136,9 @@ def article_detail(request, id):
         'article': article, 
         'toc': md.toc, 
         'comment_form': comment_form,
-        'comments': comments 
+        'comments': comments,
+        'pre_article': pre_article,
+        'next_article': next_article,
     }
     # 载入模板，并返回context对象
     return render(request, 'article/detail.html', context)
