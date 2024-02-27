@@ -97,10 +97,27 @@
     <!-- 搜索提示语 -->
     {% if search %}
         {% if articles %}
-            <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+            <h4>
+                <span style="color: red">
+                    "{{ search }}"
+                </span>
+                <span style="color: white">
+                    的搜索结果如下：
+                </span>
+            </h4>
             <hr>        
         {% else %}
-            <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+            <h4>
+                <span style="color: white">
+                    暂无
+                </span>
+                <span style="color: red">
+                    "{{ search }}"
+                </span>
+                <span style="color: white">
+                    有关的文章。
+                </span>
+            </h4>
             <hr>
         {% endif %}
     {% endif %}
